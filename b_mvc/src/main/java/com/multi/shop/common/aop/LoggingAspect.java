@@ -25,30 +25,30 @@ public class LoggingAspect {
 
     @Before("serviceLayerPointCut()") // @Before(포인트 컷 정의)
     public void logBefore() {
-        log.info("메소드 실행 전");
+        log.info("[logBefore] 메소드 실행 전");
     }
 
     @After("serviceLayerPointCut()")
     public void logAfter(JoinPoint join) {
-        log.info("메소드 실행 후");
+        log.info("[logAfter] 메소드 실행 후");
 
         Signature sig = join.getSignature(); // AOP 가 적용된 메소드의 정보를 반환
-        log.info("메소드 호출 후 확인: " + sig.getDeclaringTypeName() + ": " + sig.getName());
+        log.info("[logAfter] 메소드 호출 후 확인: " + sig.getDeclaringTypeName() + ": " + sig.getName());
 //        sig.getDeclaringTypeName(): 메소드가 있는 클래스 풀네임
 //        sig.getName(): 타겟 객체가 있는 메소드명
     }
 
     @AfterReturning(value = "serviceLayerPointCut()", returning = "result")
     public void logAfterReturning(JoinPoint join, Object result) {
-        log.info("메소드가 정상적으로 수행된 후 반환값: " + result);
+        log.info("[logAfterReturning] 메소드가 정상적으로 수행된 후 반환값: " + result);
 
         Signature sig = join.getSignature(); // AOP 가 적용된 메소드의 정보를 반환
-        log.info("AfterReturning 메소드 호출 후 확인: " + sig.getDeclaringTypeName() + ": " + sig.getName());
+        log.info("[logAfterReturning] 메소드 호출 후 확인: " + sig.getDeclaringTypeName() + ": " + sig.getName());
     }
 
     @AfterThrowing(value = "serviceLayerPointCut()", throwing = "ex")
     public void logAfterThrowing(Exception ex) {
-        log.error("메소드 실행 중 에러 발생: AfterThrowing" + ex.getMessage());
+        log.error("[logAfterThrowing] 메소드 실행 중 에러 발생: AfterThrowing" + ex.getMessage());
     }
 
     // Before 와 After 를 합쳐서 한번에 컨트롤
@@ -57,12 +57,12 @@ public class LoggingAspect {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        log.info("메소드 실행 전: " +joinPoint.getSignature());
+        log.info("[logAround] 메소드 실행 전: " +joinPoint.getSignature());
         Object proceed = joinPoint.proceed(); // 실제 메소드를 실행하는 전과 후를 나누는 기준
         stopWatch.stop();
 
-        log.info("메소드 실행 후: " +joinPoint.getSignature());
-        log.info("메소드 실행 소요시간: " +stopWatch.getTotalTimeMillis());
+        log.info("[logAround] 메소드 실행 후: " +joinPoint.getSignature());
+        log.info("[logAround] 메소드 실행 소요시간: " +stopWatch.getTotalTimeMillis());
         return proceed;
 
     }
