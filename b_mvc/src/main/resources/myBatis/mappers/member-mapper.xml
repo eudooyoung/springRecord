@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.shop.member.model.dao.MemberMapper">
+    <!-- insert, update, delete의 경우 resultType은 작성하지 않는다. 기본 _int로 수행 결과를 리턴한다. -->
+    <!-- 파라미터로 전달된 dto의 필드 이름으로 값을 바인딩 해 주어야 한다. getter를 이용하며 getter가 없는 경우도 에러가 발생한다. -->
+    <!-- 파라미터 타입도 생략이 가능하다.     -->
+    <insert id = "insertMember" parameterType="Member">
+        insert into member(id, pw, name, tel)
+        values(#{id}, #{pw}, #{name}, #{tel})
+    </insert>
+    <select id="selectEncryptedPwd" parameterType="Member" resultType="string">
+<!--        #{} 형식 사용: myBatis 문법-->
+        select pw
+        from member
+        where id = #{id}
+<!--        받아오는 값이 하나일 경우에느 #{}안에 아무거나 적어줘도 된다-->
+    </select>
+    <select id="selectLoginMember" parameterType="Member" resultType="Member">
+        select *
+        from member
+        where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+
+.btns {
+    border-radius: 4px; /* 부드러운 모서리 */
+    width: 100px;
+    height: 35px; /* 더 편안한 클릭을 위해 높이 증가 */
+    cursor: pointer;
+    color: #fff; /* 텍스트 색상을 흰색으로 */
+    background-color: skyblue; /* 부트스트랩 'primary' 버튼 색상 */
+}
+
+.btns:hover, .btns:focus {
+    background-color: #0056b3; /* 호버 시 더 짙은 색상 */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5); /* 호버 시 그림자 확대 */
+    outline: none; /* 포커스 시 테두리 제거 */
+}
+
+.btns:active {
+    background-color: #004085; /* 클릭 시 더 짙은 색상 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 약간 낮춤 */
+    transform: translateY(2px); /* 클릭 시 약간 아래로 이동 */
+}
+
+#login-btn{height:70px;}
+
+
+
+.scrollable-cell {
+    word-break: break-word; /* 긴 단어가 셀 너비를 벗어나지 않도록 줄바꿈 */
+}
+
