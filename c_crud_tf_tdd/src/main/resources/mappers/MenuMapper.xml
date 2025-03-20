@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.multi.crud.model.dao.MenuMapper">
+
+    <!-- 메뉴와 카테고리 연관관계 매핑 -->
+    <resultMap type="com.multi.crud.model.dto.MenuDTO" id="menuResultMap">
+        <id property="code" column="menu_code"/>
+        <result property="name" column="menu_name"/>
+        <result property="price" column="menu_price"/>
+        <result property="orderableStatus" column="orderable_status"/>
+
+        <!-- CategoryDTO와 연관관계 매핑 -->
+        <association property="category" javaType="com.multi.crud.model.dto.CategoryDTO">
+            <id property="code" column="category_code"/>
+            <result property="name" column="category_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 카테고리 전용 매핑 -->
+    <resultMap type="com.multi.crud.model.dto.CategoryDTO" id="categoryResultMap">
+        <id property="code" column="category_code"/>
+        <result property="name" column="category_name"/>
+        <result property="refCategoryCode" column="ref_category_code"/>
+    </resultMap>
+
+    <!-- 메뉴 목록 조회 - 카테고리 이름도 포함 -->
+    <select id="findAllMenu" resultMap="menuResultMap">
+        select
+        a.menu_code,
+        a.menu_name,
+        a.menu_price,
+        a.category_code,
+        a.orderable_status,
+        b.category_name  <!-- 카테고리 이름을 함께 조회 -->
+        from tbl_menu a
+        left join tbl_category b on a.category_code = b.category_code
+        where a.orderable_status = 'y'
+        order by a.menu_code
+    </select>
+
+    <!-- 코드에 따른 특정 메뉴 조회 -->
+    <select id="findMenuByCode" resultMap="menuResultMap">
+        select
+        a.menu_code,
+        a.menu_name,
+        a.menu_price,
+        a.category_code,
+        a.orderable_status,
+        b.category_name  <!-- 카테고리 이름을 함께 조회 -->
+        from tbl_menu a
+        left join tbl_category b on a.category_code = b.category_code
+        where a.menu_code = #{code}
+    </select>
+
+    <!-- 모든 카테고리 조회 -->
+    <select id="findAllCategory" resultMap="categoryResultMap">
+        select
+        a.category_code,
+        a.category_name,
+        a.ref_category_code
+        from tbl_category a
+        where a.ref_category_code is not null
+    </select>
+
+    <!-- 메뉴 등록 -->
+    <insert id="registerMenu">
+        insert into tbl_menu
+        (menu_name, menu_price, category_code, orderable_status)
+        values
+        (#{name}, #{price}, #{category.code}, #{orderableStatus})
+    </insert>
+
+    <!-- 메뉴 목록 조회 (페이징 처리) -->
+    <select id="selectMenuList" resultMap="menuResultMap">
+        select
+        a.menu_code,
+        a.menu_name,
+        a.menu_price,
+        a.category_code,
+        a.orderable_status,
+        b.category_name  <!-- 카테고리 이름을 함께 조회 -->
+        from tbl_menu a
+        left join tbl_category b on a.category_code = b.category_code
+        where a.orderable_status = 'y'
+        order by a.menu_code
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 메뉴 총 개수 조회  -->
+    <select id="countMenus" resultType="int">
+        select count(*) from tbl_menu
+    </select>
+</mapper>
