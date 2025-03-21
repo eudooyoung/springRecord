@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1> Fragmemt Test</h1>
+
+    <pre>
+<!--
+        * Thymeleaf의 레이아웃 기능은 크게 2가지 형태.
+
+       1) JSP의 include와 같이 특정 부분을 외부 혹은 내부에서 가져와서 포함하는 형태
+       2) 특정한 부분을 파라미터로 전달해서 내용에 포함하는 형태
+
+
+        th:fragment
+        해당 속성을 사용해서 fragment의 이름을 지정한다.
+        fragment는 다른 HTML에서 include 또는 replace 속성을 사용해서 적용할 수 있다.
+
+
+        th:include
+        현재 deprecated 되었다(3버전 부터 사용불가능)
+
+        th:insert
+        기존의 내용에 '추가'
+
+
+
+        th:replace
+        JSP의 <include> 태그와 유사한 속성이다. 기존의 내용을 대체함
+        th:fragment을 통해 설정한 이름을 찾아 해당 코드로 치환한다.
+        :: 없으면 전체내용반영
+
+        조각 표현식(Fragment Expressions): ~{...}
+-->
+
+    </pre>
+
+    <!-- f12 해서 요소확인하기 -->
+    <h2> layout 1</h2><!--div대체 : common/fragment1 화면의 fragment  part1 인 div로 대체됨-->
+    <div th:replace="~{common/fragment1 :: part1}"></div>
+
+    <h2> layout 2</h2><!--div태그내에  div 가 들어온것을 알수있다.: common/fragment1 화면의 fragment  part2 인 div가 현재 div 내에 추가됨 -->
+    <div th:insert="~{common/fragment1 :: part2}"></div>
+
+    <h2> layout 3</h2><!--th:block대체-->
+    <th:block th:replace="~{common/fragment1 :: part3}"></th:block>
+
+    <th:block th:replace="~{common/fragment1}"></th:block>
+    <!-- ::로 처리되는 부분이 없으면 전체의 내용을 반영하게 된다.
+    th:block을 대체-->
+</body>
+</html>

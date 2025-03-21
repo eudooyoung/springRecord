@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+    타임리프(Thymeleaf)란?
+    타임리프는 스프링 부트에서 공식적으로 지원하는 View 템플릿으로 JSP와 달리 Thymeleaf 문서는 html 확장자를 갖고 있어
+    JSP처럼 Servlet이 문서를 표현하는 방식이 아니기 때문에 서버 없이도 동작 가능하다.
+
+
+    템플릿 엔진(Template Engine)
+    : 데이터와 이 데이터들을 표현 할 템플릿을 결합해주는 도구로 스프링 부트가 지원하는 템플릿 엔진은 Thmeleaf, Freemarker, Mustache, Groovy가 있다.
+
+    타임리프의 문법 적용
+    스프링부트에서 templates 폴더 하위에 html확장자를 쓰고 xmlns:th 네임스페이스를 추가하고 타임리프 문법을 사용할 수 있다.
+
+    타임리프의 장점
+    - natural templates를 제공한다.(HTML의 기본 구조를 그대로 사용할 수 있으며 HTML파일을 직접 열어도 동작한다.)
+      (natural templates: 기존 HTML의 마크업 언어를 사용한 디자인 구조로 되어 있는 템플릿으로 서버를 구동하지 않으면 순수 HTML을,
+      서버를 구동하면 동적으로 HTML이 생성된다.)
+    - 개발 시 디자인과 개발이 분리되어 작업 효율이 좋다.
+    - was를 통하지 않고도 파일을 웹 브라우저를 통해 열 수 있어 퍼블리셔와 협업이 용이하다.
+
+    타임리프의 단점
+    - jsp태그 라이브러리와 custom태그들을 사용할 수 없어 기존 JSP코드를 재사용할 수 없다.
+    - 기존 태그를 유지하고 속성으로 템플릿 구문을 넣는데 있어 어느정도 한계가 있고 자바스크립트나 jQuery의 도움이 필요할 수 있다.
+ -->
+
+    <h1 align="center">Thymeleaf</h1>
+
+    <button onclick="location.href='/lecture/expression?title=표현식&no=5&no=6'">표현식</button>
+    <button onclick="location.href='/lecture/conditional'">제어문</button>
+    <button onclick="location.href='/lecture/etc'">기타</button>
+
+    <br><br>
+    <a href="/thyme/test2">1.thymeleaf기본문법</a><br>
+    <a href="/thyme/thymeleaf2">2.thymeleaf링크</a><br>
+    <a href="/thyme/thymeleaf3">3.thymeleaflayout1</a><br>
+    <a href="/thyme/thymeleaf5">4.thymeleaflayout2</a><br>
+</body>
+</html>

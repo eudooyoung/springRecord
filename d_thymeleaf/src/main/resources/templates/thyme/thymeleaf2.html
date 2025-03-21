@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h3>th:href</h3>
+    <pre> a 태그의 href 속성과 동일,링크 는 @{}을 이용 해서 사용
+        웹 애플리케이션을 구분하는 콘텍스트 경로(Context Path)를 포함한다.</pre>
+    <!--*****************************************************************
+                http://localhost:8090/thyme/test3
+           ***************************************************************** -->
+    <ul>
+        <li th:each="list:${lists}">
+            <a th:href="@{/thyme/test3}">[[${list}]]</a>
+
+        </li>
+
+    </ul>
+    <!--*****************************************************************
+               http://localhost:8090/thyme/test3?id=2
+          ***************************************************************** -->
+    <h3>파라미터추가하기 - ()안에 이름과 값 추가</h3>
+    <ul>
+        <li th:each="list:${lists}">
+            <a th:href="@{/thyme/test3(id=${list.id})}">[[${list}]]</a>
+        </li>
+
+    </ul>
+    <!--*****************************************************************
+                  http://localhost:8090/thyme/test3/3
+              ***************************************************************** -->
+    <h3>path로 추가 - ex> /thyme/test3/1 </h3>
+    <ul>
+        <li th:each="list:${lists}">
+            <a th:href="@{/thyme/test3/{id}(id = ${list.id})}">[[${list}]]</a>
+        </li>
+
+    </ul>
+
+
+    <th:block th:unless="${authInfo}"><p>환영합니다.</p>
+        <p><a href="" th:href="@{/register/step1}">[회원 가입하기]</a> <a href="" th:href="@{/login}">[로그인]</a></p></th:block>
+    <th:block th:if="${authInfo}"><p><span th:text="${authInfo.name}"></span>님, 환영합니다.</p>
+        <p><a href="" th:href="@{/edit/changePassword}">[비밀번호 변경]</a> <a href="" th:href="@{/logout}">[로그아웃]</a></p>
+    </th:block>
+
+
+<!--    타임리프의 URL 경로 문법-->
+<!--    타임리프는 URL 경로 표시를 위한 문법 @{...}을 제공한다. 타임리프에서 정적 리소스를 연결하거나, 다른 컨트롤러로 연결하기 위해서 @{...}을 사용하면 편리하게 할 수 있다. 주된 사용법은 다음과 같다.-->
+
+<!--    // 절대 경로-->
+<!--    th:href=@{/bootstrap/js/scripts.js}-->
+
+<!--    // 상대 경로-->
+<!--    th:href=@{bootstrap/js/scripts.js}-->
+<!--    앞서 이야기 했던 것처럼 URL은 "상대 경로"와 "절대 경로"가 존재한다. Thymeleaf에서는 @{...} URL 표현식에 "/"의 유무로 상대경로와 절대경로를 구별한다.-->
+
+<!--    현재 ViewTemplate으로 온 URL 주소를 localhost:8080/abc 라고 가정.-->
+<!--    절대 경로 : @{/basic/hello}-->
+<!--    결과 : localhost:8080/basic/hello-->
+<!--    상대 경로 : @{basic/hello}-->
+<!--    결과 : localhost:8080/abc/basic/hello-->
+
+
+<!--    상대 경로는 현재 타고온 URL을 기준으로 뒷쪽에 경로 표현식의 값을 덧붙여 URL로 만든다. 반면 절대 경로는 "/"를 이용해 최상위 루트로 올라간다. 따라서 최상위 경로에서부터 시작해서 뒷쪽의 경로값을 붙인다.-->
+</body>
+</html>

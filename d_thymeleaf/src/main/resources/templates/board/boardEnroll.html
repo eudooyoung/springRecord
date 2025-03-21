@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Board enroll test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+
+    <style>
+        #contentArea {width:60%}
+        #contentArea *{margin:5px}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <br><br>
+        <h2 align="center">게시글 작성하기</h2>
+
+        <br>
+    
+
+
+        <form th:action="@{/board/insert}" method="post">
+            <table align="center" id="contentArea">
+                <tr>
+                    <th><label for="title">제목</label></th>
+                    <td><input type="text" id="title" class="form-control" name = "boardTitle"  required></td>
+                </tr>
+                <tr>
+                    <th><label for="writer">작성자</label></th>
+                    <td><input type="text" id="writer" class="form-control"  name = "boardWriter"  ></td>
+                </tr>
+
+                <tr>
+                    <th colspan="2"><label for="content">내용</label></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><textarea class="form-control" required name="boardContent" id="content" rows="10" style="resize:none;"></textarea></th>
+                </tr>
+            </table>
+            <br>
+
+            <div align="center">
+                <button type="submit" class="btn btn-primary">등록하기</button>
+                <button type="reset" class="btn btn-danger">취소하기</button>
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>

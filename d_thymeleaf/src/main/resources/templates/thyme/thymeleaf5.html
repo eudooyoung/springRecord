@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{thyme/thymeleaf4 :: setContent(~{::content1})}">
+
+    <th:block th:fragment="content2">
+        <h1>exSidebar Page2</h1>
+    </th:block>
+    <th:block th:fragment="content1">
+        <h1>exSidebar Page1</h1>
+    </th:block>
+
+
+</th:block>
+<!--this :: content 에 현재페이지의 fragment를 넣어주고 이 넣어준 값을 thyme/thymeleaf4 의 fragment 에
+ setContent에 넣어주고 thyme/thymeleaf4으로 대체된다.
+-->
+</html>

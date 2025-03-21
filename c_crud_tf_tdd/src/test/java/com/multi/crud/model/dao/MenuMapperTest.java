@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest // 통합 테스트
-@ContextConfiguration(classes = {CCrudTfTddApplication.class, MyBatisConfig.class})
+@ContextConfiguration(classes = {CCrudTfTddApplication.class, MyBatisConfig.class}) // 테스트에 필요한 컨텍스트 가져오기
 class MenuMapperTest {
 
-    @Autowired
+    @Autowired // 의존성 주입
     private MenuMapper menuMapper;
 
     @Test

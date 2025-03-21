@@ -43,7 +43,7 @@ class MenuControllerTest {
     void findMenuList() throws Exception {
         mockMvc.perform(get("/menu/list")) // get방식으로 "/menu/list" url에 접근했을 때
                 .andExpect(status().isOk()) // 상태코드가 200인지
-                .andExpect(view().name("menu/list")) // 포워딩 될 뷰이름이 맞는지
+                .andExpect(view().name("menu/list")) // 넘어갈 뷰이름이 맞는지(templates 아래)
                 .andDo(print()); // 응답 내용을 출력
     }
 
@@ -66,7 +66,7 @@ class MenuControllerTest {
         params.add("orderableStatus", "Y");
 
         mockMvc.perform(post("/menu/register").params(params))
-                .andExpect(status().is3xxRedirection()) // 리다이렉트 확인
+                .andExpect(status().is3xxRedirection()) // 리다이렉트 코드 확인
                 .andExpect(redirectedUrl("/menu/list"))
                 .andExpect(flash().attribute("successMessage", "신규 메뉴 등록 성공"))
                 .andDo(print());

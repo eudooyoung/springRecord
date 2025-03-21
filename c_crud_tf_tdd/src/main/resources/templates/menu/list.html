@@ -5,6 +5,14 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/page.css}"/>
 </head>
+<script>
+    // [[...]] 는 표현식(표현 언어, Expression Syntax) // HTML 내에서 서버에서 전달된 데이터를 직접 표시
+    const successMessage = "[[${successMessage}]]";
+    console.log(successMessage)
+    if (successMessage) {
+        alert(successMessage);
+    }
+</script>
 <body>
 <div th:replace="~{common/header.html}"></div>
 <div th:style="'height: 350px;'">
@@ -16,14 +24,66 @@
             <th>카테고리</th>
             <th>판매상태</th>
         </tr>
-        <tr th:each=" menu : ${menuList}">
-            <td th:text="${menu.code}">
-            <td th:text="${menu.name}">
-            <td th:text="${menu.price}">
-            <td th:text="${menu.category.name}">
-            <td th:text="${menu.orderableStatus}">
-        </tr>
+
+        <!--        <tr th:each=" menu : ${menuList}">-->
+        <!--            <td th:text="${menu.code}">-->
+        <!--            <td th:text="${menu.name}">-->
+        <!--            <td th:text="${menu.price}">-->
+        <!--            <td th:text="${menu.category.name}">-->
+        <!--            <td th:text="${menu.orderableStatus}">-->
+        <!--        </tr>-->
+        <tbody id="menuTableBody">
+
+        </tbody>
     </table>
 </div>
+<div th:replace="~{common/pagination.html}"></div>
+<!--defer: document가 다 출력 된 후 실행-->
+<script th:src="@{/js/page.js}" defer></script>
+<script>
+    async function loadMenu(page) {
+
+        try {
+            const response = await fetch(`/menu/pagination?page=${page}`, {
+                method: 'GET',
+                cache: 'no-cache'
+            });
+
+            if (!response.ok) {
+                throw new Error(`에러발생: ${response.status}`)
+            }
+
+            const data = await response.json();
+            console.log(data)
+
+            const $tableBody = document.getElementById('menuTableBody');
+            $tableBody.innerHTML = '';
+
+            data.menuList.forEach(menu => {
+                console.log("메뉴 객체", menu);
+
+                const row = `
+                        <tr>
+                            <td>${menu.code}</td>
+                            <td>${menu.name}</td>
+                            <td>${menu.price}</td>
+                            <td>${menu.category.name}</td>
+                            <td>${menu.orderableStatus}</td>
+                        </tr>`;
+                $tableBody.innerHTML += row;
+
+            });
+
+            loadPagination(data.currentPage, data.totalPages, loadMenu)
+        } catch (error) {
+            console.error('error: ', error)
+        }
+
+    }
+
+    $(function () {
+        loadMenu(1);
+    })
+</script>
 </body>
 </html>

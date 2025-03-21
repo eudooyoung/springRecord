@@ -89,4 +89,32 @@ class MenuControllerUnitTest {
                 .andExpect(redirectedUrl("/menu/list"))
                 .andDo(print());
     }
+
+    @Test
+    void 페이징_테스트_기본() throws Exception {
+        // 페이지별로 Mock 데이터 나누기 (1페이지 10개, 2페이지 3개)
+        List<MenuDTO> mockMenuPage1 = allMockMenus.subList(0, 10);
+        List<MenuDTO> mockMenuPage2 = allMockMenus.subList(10, 13);
+
+        // Mock 설정: 각 페이지 요청 시 해당 페이지의 Mock 데이터를 반환하도록 설정
+        given(menuService.getMenuList(1, 10)).willReturn(mockMenuPage1);  // 1페이지의 Mock 데이터
+        given(menuService.getMenuList(2, 10)).willReturn(mockMenuPage2);  // 2페이지의 Mock 데이터
+        given(menuService.getMenuCount()).willReturn(allMockMenus.size());  // 전체 데이터 개수 반환
+
+        mockMvc.perform(get("/menu/pagination").param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.currentPage").value(1))  // 현재 페이지 번호 확인
+                .andExpect(jsonPath("$.totalPages").value(2))  // 총 페이지 수 확인
+                .andExpect(jsonPath("$.menuList.length()").value(10))  // 첫 페이지 데이터 수 확인
+                .andDo(print());
+
+        mockMvc.perform(get("/menu/pagination").param("page", "2"))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.currentPage").value(2))  // 현재 페이지 번호 확인
+                        .andExpect(jsonPath("$.totalPages").value(2))  // 총 페이지 수 확인
+                        .andExpect(jsonPath("$.menuList.length()").value(3))  // 첫 페이지 데이터 수 확인
+                        .andDo(print());
+
+
+    }
 }

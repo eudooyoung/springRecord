@@ -22,7 +22,7 @@ public class MenuService {
 
     public boolean registerMenu(MenuDTO menuDTO) throws Exception {
         int result = menuMapper.registerMenu(menuDTO);
-        if (result <= 0) {
+        if (result <= 0) { // 에러 발생
             throw new Exception("메뉴 등록 실패");
         }
         return (result > 0) ? true : false;
@@ -30,5 +30,17 @@ public class MenuService {
 
     public List<CategoryDTO> findAllCategory() {
         return menuMapper.findAllCategory();
+    }
+
+
+    public List<MenuDTO> getMenuList(int page, int pageSize) {
+
+        int offset = (page - 1) * pageSize;
+
+        return menuMapper.selectMenuList(offset, pageSize);
+    }
+
+    public int getMenuCount() {
+        return menuMapper.countMenus();
     }
 }

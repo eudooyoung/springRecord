@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--**************************************************************************************************************
+
+####템플릿 엔진이란 HTML(Markup)과 데이터를 결합한 결과물을 만들어 주는 도구이다.
+타임리프는 템플릿 엔진 중 하나로, Spring Boot에서는 JSP가 아닌 Thymeleaf 사용을 권장하고 있다.
+
+타임리프 특징
+서버 사이드 렌더링 (SSR)
+Natural Template
+스프링에서 권장하고 통합 지원
+
+
+* 서버 사이드 렌더링 (SSR)
+HTML 최종 결과를 서버에서 만들어 웹 브라우저에 전달
+정적인 화면에서 자주 사용
+JSP, 타임리프가 대표적인 예시이며 현재는 타임리프를 주로 사용
+
+https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#using-and-displaying-variables
+https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#link-urls
+
+**************************************************************************************************************-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .three {
+            background-color: red;
+        }
+
+        .other {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+<h1>thymeleaf</h1>
+<pre>
+        1)${...}
+        JSP의 EL 표현식인 ${}와 마찬가지로 타임리프도 ${} 표현식을 사용
+        컨트롤러에서 전달받은 데이터에 접근할 수 있고 th:속성명 내에서만 사용
+
+        2) @{...} 표현식
+        서버의 contextPath를 의미하며 @{/} 는 "/contextPath/" 를 의미
+
+        3) 문자 합치기
+        합치고 싶은 문자열을 "|" 으로 감싸거나 + 연산자를 이용해 문자를 합침
+
+    </pre>
+<h3>th:text</h3>
+<pre>일반적인 텍스트 형식으로 화면에 출력</pre>
+<h5 th:text="${'hello'}"></h5>
+<hr>
+<h3>th:value</h3>
+<pre>태그 내에 value를 수정</pre>
+<input type='text' th:value="${'hello'}">
+<hr>
+<h3>th:each</h3>
+<pre>JSTL의 'c:foreach' , 자바의 forEach와 유사한 기능
+         each문을 이용해 반복문을 표현
+    </pre>
+<ul>
+    <li th:each="list:${lists}">
+        [[${list}]] <!--인라인 표현식 :별도의 태그속성으로 지정하지 않고 사용 할떄 사용-->
+    </li>
+
+</ul>
+
+<pre>변수명 앞에 status(상태변수명은 변경해도 됨) 변수를 추가해 row에 대한 추가정보를 얻음
+        * 상태 속성
+        index : 0부터 시작
+        count : 1부터 시작
+        size : 총 개수
+        current : 현재 index의 변수
+        event/odd : 짝수/홀수 여부
+        first/last : 처음/마지막 여부
+    </pre>
+<br>
+<th:block th:each="list,status:${lists}">
+    <h5 th:text="|인덱스: ${status.index} ${list}|"></h5>
+</th:block>
+<hr>
+<h3>th:block</h3>
+<pre>
+        thymeleaf가 제공하는 모든 th:xxx 속성들은 element가 아니라
+        attribute이기 때문에 속성을 지정할 tag가 적당치 않은 경우에 사용 .
+        예로 th:text 나 th:value 는 반드시 tag 뒤에 붙어서 사용
+        th:block 은 Thymeleaf 의 가상 태그로 실제 화면에서는 html 로 처리 되지않기 때문에 루프등의 별도로 처리 되는 용도로 많이 사용
+
+    </pre>
+<table border="1">
+    <th:block th:each="user : ${lists}">
+        <tr>
+            <td th:text="${user.id}">...</td>
+            <td th:text="${user.name}">...</td>
+        </tr>
+        <tr>
+            <td colspan="2" th:text="${user.createDate}">...</td>
+        </tr>
+    </th:block>
+</table>
+
+<hr>
+
+<h3>th:if, th:unless</h3>
+<pre>th:if는 if 문과 , th:unless는 else 문과 같음
+       * th:unless는 th:if에 들어가는 조건과 동일한 조건을 지정해야함</pre>
+
+<!--id가 짝수인것은 모든 정보 출력하고 아닌경우는 이름만 출력 -->
+<th:block th:each="list,status:${lists}">
+    <span th:if="${list.id % 2 == 0}" th:text="${list}"></span>
+    <span th:unless="${list.id % 2 == 0}" th:text="${list.name}"></span>
+    <th:block th:if="${list.id % 2 == 0}">---------짝수</th:block>
+    <th:block th:unless="${list.id % 2 == 0}">---------홀수</th:block>
+    <br>
+</th:block>
+
+<hr>
+
+<h3>th:switch, th:case</h3>
+<pre> switch문을 이용해 조건문을 표현</pre>
+
+
+<th:block th:each="list,state:${lists}">
+    <th:block th:switch="${list.id}">
+        <div th:case="1"> 유재석1입니다.</div>
+        <div th:case="2"> 유재석2입니다.</div>
+    </th:block>
+</th:block>
+<hr>
+<h3>삼항 연산자</h3>
+<!--아이디 3의 배수일떄 css 처리 -->
+<ul>
+    <li th:each="list: ${lists}" th:class="${list.id % 3 == 0 } ?'three' : 'other'" th:text="${list}"></li>
+</ul>
+<hr>
+<h3>숫자,날짜처리</h3>
+<pre>jsp를 이용하여 숫자나 날짜를 처리하기 위해서는 별도의 jstl 설정등이 필요하지만 thymeleaf 는
+        number, date 등을 별도 설정없이 사용가능
+        #numbers.formatInteger(표시해야 할 값, 최소 자리수)
+        * 최소 자리수 -  부족한 자리수는 앞에 0으로 채워지고, 최소 자리수를 넘어가면 0으로 채워지지 않고 전체 값이 모두 표시
+        * 주의 - 소수점은 표시안됨
+
+        #numbers.formatInteger(표시해야 할 값, 최소 자리수, 구분자)
+        * 구분자 - 세자리마다 사이에 표시되는 구분자로서 'COMMA', 'POINT', 'WHITESPACE', 'NONE', 'DEFAULT'. Default는 COMMA.
+        * 주의 - 최소 자리수를 지정하지 않으려면 최소 자리수에 1을 사용. 그래야 앞에 0이 채워지지 않음
+
+        #numbers.formatDecimal(표시해야 할 값, 최소 정수 자리수, 최소 소수 자리수)
+    </pre>
+
+<ul>
+    <li th:each="list:${lists}">
+        [[${#numbers.formatInteger(list.id, 5)}]] <br> <!--id를 모두 5자리로 만들기 -->
+        소수점포맷: [[${#numbers.formatDecimal(list.id, 5,2)}]]
+    </li>
+
+</ul>
+[[${#numbers.formatDecimal(555.123, 5,2)}]] <br>
+[[${#numbers.formatInteger(5000000, 0, 'COMMA')}]]
+
+<h3> Date -#temporals 이용하여 처리 </h3>
+<ul>
+    <li th:each="list:${lists}">
+        <span th:text="${#temporals.format(list.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+    </li>
+
+</ul>
+
+
+</body>
+</html>
+
+

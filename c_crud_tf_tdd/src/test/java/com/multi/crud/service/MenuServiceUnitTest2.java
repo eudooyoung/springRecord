@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest // Applicationcontext 불러오기
 public class MenuServiceUnitTest2 {
 
-    @MockitoBean // mapper는 그대로 이용
+    @MockitoBean // mapper를 모조객체로 대체
     private MenuMapper menuMapper;
 
     @Autowired
