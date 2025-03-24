@@ -35,7 +35,7 @@ public class MenuService {
 
     public List<MenuDTO> getMenuList(int page, int pageSize) {
 
-        int offset = (page - 1) * pageSize;
+        int offset = (page - 1) * pageSize; // 매퍼에서 해당되는 쿼리에 쓰일 스킵값.
 
         return menuMapper.selectMenuList(offset, pageSize);
     }

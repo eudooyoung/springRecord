@@ -68,7 +68,7 @@ class MenuControllerTest {
         mockMvc.perform(post("/menu/register").params(params))
                 .andExpect(status().is3xxRedirection()) // 리다이렉트 코드 확인
                 .andExpect(redirectedUrl("/menu/list"))
-                .andExpect(flash().attribute("successMessage", "신규 메뉴 등록 성공"))
+                .andExpect(flash().attribute("successMessage", "신규메뉴등록에 성공하셨습니다."))
                 .andDo(print());
     }
 }

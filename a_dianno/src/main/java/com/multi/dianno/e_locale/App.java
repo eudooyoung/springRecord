@@ -26,6 +26,7 @@ public class App {
         ApplicationContext context = new AnnotationConfigApplicationContext(ContextConfiguration.class);
 
         String error404 = context.getMessage("error.404", null, Locale.KOREA);
+        // 해당 메세지 프로퍼티 파일에 에러 형식에 따라 arg 값 순서대로 기입. {0}: "jenny", Time: {1}: "new Date().
         String error500 = context.getMessage("error.500", new Object[] {"jenny", new Date()}, Locale.US);
 
         System.out.println(error404);

@@ -41,12 +41,12 @@ public class MenuController {
 //        return mv;
 //    }
 
-    @GetMapping("/list")
+    @GetMapping("/list") // /menu/list... 리다이렉트 되는 경로와 매핑 경로가 동일함.
     public void getMenuListPage() {
     }
 
     @GetMapping("/pagination")
-    @ResponseBody // 데이터 전환
+    @ResponseBody // 데이터 전환, 레스트방식
     public Map<String, Object> getPageMenus(@RequestParam(name = "page", defaultValue = "1") int page) {
         log.info("page번호: {}", page);
         int pageSize = 10;
@@ -79,7 +79,8 @@ public class MenuController {
                                      Locale locale) throws Exception {
         menuService.registerMenu(menuDTO);
         mv.setViewName("redirect:/menu/list");
-        rttr.addFlashAttribute("successMessage", messageSource.getMessage("registerMenu", null, locale));
+        rttr.addFlashAttribute("successMessage", messageSource.getMessage("registerMenu", null, locale));// 메세지 소스 사용
+//        mv.addObject("successMessage", messageSource.getMessage("registerMenu", null, locale));
         return mv;
     }
 

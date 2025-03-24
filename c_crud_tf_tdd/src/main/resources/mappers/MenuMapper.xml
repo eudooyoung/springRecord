@@ -16,6 +16,7 @@
         <association property="category" javaType="com.multi.crud.model.dto.CategoryDTO">
             <id property="code" column="category_code"/>
             <result property="name" column="category_name"/>
+            <result property="refCategoryCode" column="ref_category_code"/>
         </association>
     </resultMap>
 
@@ -34,7 +35,8 @@
         a.menu_price,
         a.category_code,
         a.orderable_status,
-        b.category_name  <!-- 카테고리 이름을 함께 조회 -->
+        b.category_name,  <!-- 카테고리 이름을 함께 조회 -->
+        b.ref_category_code
         from tbl_menu a
         left join tbl_category b on a.category_code = b.category_code
         where a.orderable_status = 'y'
@@ -81,7 +83,8 @@
         a.menu_price,
         a.category_code,
         a.orderable_status,
-        b.category_name  <!-- 카테고리 이름을 함께 조회 -->
+        b.category_name,  <!-- 카테고리 이름을 함께 조회 -->
+        b.ref_category_code
         from tbl_menu a
         left join tbl_category b on a.category_code = b.category_code
         where a.orderable_status = 'y'
