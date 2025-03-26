@@ -1,0 +1,19 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    root: INFO                # 기본 로그 수준을 INFO로 설정
+    jdbc.connection: OFF      # 연결 관련 로그 비활성화
+    jdbc.sqlonly: OFF         # SQL 문장 로그 비활성화
+    jdbc.audit: OFF           # JDBC 감사 상세 로그 비활성화
+    jdbc.resultset: OFF       # JDBC 결과 세트 관련 상세 로그 비활성화
+    org.springframework.security: DEBUG  # Spring Security 로그를 DEBUG 수준으로 활성화
+    com.multi.security: INFO     # 애플리케이션 자체 로그는 INFO 수준으로 표시
+
+spring:
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/spring
+    username: scott
+    password: tiger
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"> <!--타임리프 변경 확인-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 align="center">UNI RESTAURANT에 오신 것을 환영합니다.</h1>
+<div align="right">
+    <th:block sec:authorize="isAuthenticated()">
+        <h3 align="right"><span sec:authentication="principal"></span></h3>
+        <h3 align="right"><span sec:authentication="principal.Username"></span>님 환영합니다</h3>
+        <button onclick="location.href='/member/logout'">로그아웃</button>
+
+    </th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <h3>로그인이 필요한 서비스입니다.</h3>
+        <button onclick="location.href='/member/login'">로그인</button>
+    </th:block>
+</div>
+
+
+<!--권한별로 보이고 안 보이게 설정하기
+    메뉴 : 모두 보이게 - 로그인 필요없다.
+    주문 : 회원 권한, 관리자 권한  - 권한이 있는지, 사용자가 맞는지 인증을 하고 그 권한으로 권한부여 (인가)
+    관리자 : 관리자 권한만 - 권한이 있는지, 관리자가 맞는지 인증을 하고 그 권한으로 권한부여 (인가)
+-->
+
+<button onclick="location.href='/menu/list'">메뉴 보기</button>
+
+<!--hasAnyRole : ()안에  권한이 하나라도 해당이되면 보여주고 아니면 보여주지않는다
+  hasAnyRole 은 db 에서 조회된 권한을 보면 ROLE_USER , ROLE_ADMIN  으로 되어있어도 기본적으로 접두어는 role  은 빼고 인식한다. 그래서 () 안에 ROLE 은 빼고 작성
+
+  hasRole : 한개의 롤 확인 할떄 사용
+-->
+
+<th:block sec:authorize="hasAnyRole('USER', 'ADMIN')">
+    <button onclick="location.href='/order/register'">주문하기</button>
+</th:block>
+<th:block sec:authorize="hasRole('ADMIN')">
+    <button onclick="location.href='/admin/dashboard'">관리자메뉴</button>
+</th:block>
+</body>
+</html>
